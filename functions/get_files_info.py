@@ -1,4 +1,5 @@
 import os
+from google.genai import types
 
 def get_files_info(working_directory, directory=None):
   try:
@@ -21,4 +22,17 @@ def get_files_info(working_directory, directory=None):
     return formated_output
   except Exception as e:
     return f"Error: {e}"
-print(get_files_info(".", ""))
+  
+schema_get_files_info = types.FunctionDeclaration(
+  name="get_files_info",
+  description="List files in the directory along with their sizes, constrainted to the working directory",
+  parameters=types.Schema(
+    type=types.Type.OBJECT,
+    properties={
+      "directory": types.Schema(
+        type=types.Type.STRING,
+        description="The directory to list the files from, relative to the working directory"
+      )
+    }
+  )
+)
